@@ -257,63 +257,67 @@ class OilChangeUI {
      */
     setupIOSKeyboardFix() {
         const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        const isStandalone = window.navigator.standalone === true;
         
-        if (isIOS && isStandalone) {
-            // Force viewport settings for iOS PWA
-            const viewport = document.querySelector('meta[name="viewport"]');
-            if (viewport) {
-                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5');
-            }
+        // Solução definitiva para iOS - força input interativo
+        if (isIOS) {
+            // 1. Força font-size 16px em TODOS os inputs para evitar zoom
+            const style = document.createElement('style');
+            style.textContent = `
+                input, textarea, select {
+                    font-size: 16px !important;
+                    -webkit-appearance: none !important;
+                    appearance: none !important;
+                    border-radius: 0 !important;
+                    padding: 12px 15px !important;
+                }
+                
+                input:focus, textarea:focus, select:focus {
+                    font-size: 16px !important;
+                    outline: 2px solid #FF6B6B !important;
+                    outline-offset: 2px !important;
+                }
+                
+                /* Remove qualquer efeito de zoom */
+                body {
+                    -webkit-user-scalable: yes !important;
+                    touch-action: manipulation !important;
+                }
+                
+                /* Força teclado a ficar visível */
+                input, textarea {
+                    -webkit-touch-callout: none !important;
+                }
+            `;
+            document.head.appendChild(style);
             
-            // Adiciona handler para todos os inputs existentes e futuros
-            document.addEventListener('touchstart', (e) => {
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                    // Garante que o input receba focus
+            // 2. Handler global para capturar qualquer input focus
+            document.addEventListener('focus', (e) => {
+                if (e.target.matches('input, textarea, select')) {
                     setTimeout(() => {
                         e.target.focus();
-                        // Força o teclado a aparecer
-                        e.target.setSelectionRange(0, 0);
-                    }, 50);
+                        // Seleciona todo o texto para mostrar que está ativo
+                        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                            e.target.select?.();
+                        }
+                        // Scroll suave para o elemento
+                        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            }, true);
+            
+            // 3. Touch handler para força teclado
+            document.addEventListener('touchstart', (e) => {
+                if (e.target.matches('input, textarea, select')) {
+                    e.target.focus();
                 }
             }, { passive: true });
             
-            // Fix para quando o documento é tocado
-            document.addEventListener('focus', (e) => {
-                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                    // Scroll para o input se necessário
-                    setTimeout(() => {
-                        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                        // Double tap para garantir focus
-                        e.target.focus();
-                    }, 100);
+            // 4. Click handler para garantir
+            document.addEventListener('click', (e) => {
+                if (e.target.matches('input, textarea, select')) {
+                    setTimeout(() => e.target.focus(), 50);
                 }
-            }, { capture: true, passive: true });
-            
-            // Fix adicional para inputs criados dinamicamente
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    mutation.addedNodes.forEach((node) => {
-                        if (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA') {
-                            node.addEventListener('focus', (e) => {
-                                setTimeout(() => {
-                                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                                }, 100);
-                            });
-                        }
-                    });
-                });
-            });
-            
-            observer.observe(document.body, { childList: true, subtree: true });
-        }
-        
-        // Fix global para iOS - força font-size 16px para evitar zoom
-        if (isIOS) {
-            const inputs = document.querySelectorAll('input, textarea, select');
-            inputs.forEach(input => {
-                input.style.fontSize = '16px';
-            });
+            }, true);
         }
     }
 
