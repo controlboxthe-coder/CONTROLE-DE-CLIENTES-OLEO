@@ -247,6 +247,41 @@ class OilChangeUI {
 
         this.oilForm.addEventListener('submit', (e) => this.handleOilFormSubmit(e));
         this.warrantyForm.addEventListener('submit', (e) => this.handleWarrantyFormSubmit(e));
+        
+        // Fix iOS teclado: adiciona handlers para todos os inputs
+        this.setupIOSKeyboardFix();
+    }
+
+    /**
+     * Fix para teclado no iOS standalone
+     */
+    setupIOSKeyboardFix() {
+        const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        const isStandalone = window.navigator.standalone === true;
+        
+        if (isIOS && isStandalone) {
+            // Adiciona handler para todos os inputs existentes e futuros
+            document.addEventListener('touchstart', (e) => {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    // Garante que o input receba focus
+                    setTimeout(() => {
+                        e.target.focus();
+                        // Força o teclado a aparecer
+                        e.target.setSelectionRange(0, 0);
+                    }, 50);
+                }
+            }, { passive: true });
+            
+            // Fix para quando o documento é tocado
+            document.addEventListener('focus', (e) => {
+                if (e.target.tagName === 'INPUT') {
+                    // Scroll para o input se necessário
+                    setTimeout(() => {
+                        e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }, 100);
+                }
+            }, { capture: true, passive: true });
+        }
     }
 
     handleTabChange(event) {

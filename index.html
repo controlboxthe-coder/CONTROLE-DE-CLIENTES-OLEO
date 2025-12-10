@@ -2,12 +2,14 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5.0">
     <meta name="theme-color" content="#FF6B6B">
     <meta name="description" content="Sistema de controle de troca de óleo e garantias de serviços">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Box Motors">
+    <meta name="apple-mobile-web-app-status-bar" content="black-translucent">
+    <meta name="format-detection" content="telephone=no">
     <meta name="msapplication-TileColor" content="#FF6B6B">
     <meta name="msapplication-config" content="browserconfig.xml">
     <link rel="manifest" href="manifest.json">
@@ -318,6 +320,47 @@
             // Mostra prompt de instalação se necessário
             // deferredPrompt.prompt();
         });
+
+        // ============================================
+        // FIX PARA TECLADO NO iOS STANDALONE
+        // ============================================
+        (function() {
+            const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+            const isStandalone = window.navigator.standalone === true;
+            
+            if (isIOS && isStandalone) {
+                console.log('📱 iOS Standalone detectado - Ativando fix para teclado');
+                
+                // Detecta quando a app está em modo standalone
+                document.addEventListener('touchstart', function(e) {
+                    // Se tocou em um input, textarea ou contenteditable
+                    if (e.target.tagName === 'INPUT' || 
+                        e.target.tagName === 'TEXTAREA' ||
+                        e.target.contentEditable === 'true') {
+                        
+                        // Força focus com pequeno delay
+                        setTimeout(() => {
+                            e.target.focus();
+                            // Coloca cursor no final do texto
+                            if (e.target.value) {
+                                e.target.setSelectionRange(e.target.value.length, e.target.value.length);
+                            }
+                        }, 100);
+                    }
+                }, false);
+                
+                // Fix adicional: re-focus ao mudar de orientação
+                window.addEventListener('orientationchange', function() {
+                    setTimeout(() => {
+                        const activeElement = document.activeElement;
+                        if (activeElement && (activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA')) {
+                            activeElement.blur();
+                            activeElement.focus();
+                        }
+                    }, 300);
+                });
+            }
+        })();
     </script>
 </body>
 </html>
