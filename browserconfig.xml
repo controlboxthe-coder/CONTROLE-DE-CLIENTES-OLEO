@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<browserconfig>
+    <msapplication>
+        <tile>
+            <square70x70logo src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 70 70'><rect width='70' height='70' fill='%23FF6B6B'/></svg>"/>
+            <square150x150logo src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 150 150'><rect width='150' height='150' fill='%23FF6B6B'/><circle cx='75' cy='75' r='50' fill='%23ffffff'/></svg>"/>
+            <square310x310logo src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 310 310'><rect width='310' height='310' fill='%23FF6B6B'/><circle cx='155' cy='155' r='100' fill='%23ffffff'/></svg>"/>
+            <TileColor>#FF6B6B</TileColor>
+        </tile>
+    </msapplication>
+</browserconfig>

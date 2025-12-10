@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#FF6B6B">
+    <meta name="description" content="Sistema de controle de troca de óleo e garantias de serviços">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Box Motors">
+    <meta name="msapplication-TileColor" content="#FF6B6B">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" type="image/png" href="logosvg.png">
+    <link rel="apple-touch-icon" href="logosvg.png">
+    <title>Sistema de Controle</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Cabeçalho -->
+        <header class="header">
+            <div class="logo-header">
+                <img src="logosvg.png" alt="Box Motors Logo" class="header-logo">
+            </div>
+            <h1>Controle de Troca de Óleo e Garantias</h1>
+            <p class="subtitle">Gerencie as manutenções do seu veículo com facilidade</p>
+        </header>
+
+        <!-- Abas de Navegação -->
+        <nav class="tabs-navigation">
+            <button class="tab-btn active" data-tab="oil-change">🛢️ Troca de Óleo</button>
+            <button class="tab-btn" data-tab="warranties">✅ Garantias de Serviços</button>
+            <button class="tab-btn" data-tab="backup">💾 Backup</button>
+        </nav>
+
+        <!-- Seção Principal -->
+        <main class="main-content">
+            <!-- TAB 1: TROCA DE ÓLEO -->
+            <div id="oil-change" class="tab-content active">
+                <!-- Formulário de Cadastro -->
+                <section class="form-section">
+                    <h2>Nova Troca de ÓLEO</h2>
+                    <form id="oilChangeForm" class="form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="clientName">Nome do Cliente *</label>
+                            <input 
+                                type="text" 
+                                id="clientName" 
+                                placeholder="Ex: Will"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="phoneClient">Telefone</label>
+                            <input 
+                                type="tel" 
+                                id="phoneClient" 
+                                placeholder="Ex: (69) 9931-4190"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="kmCurrent">KM Atual *</label>
+                            <input 
+                                type="number" 
+                                id="kmCurrent" 
+                                placeholder="Ex: 20400"
+                                min="0"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="vehicleModel">Modelo do Veículo *</label>
+                            <input 
+                                type="text" 
+                                id="vehicleModel" 
+                                placeholder="Ex: Y Mt 09"
+                                required
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="dateChange">Data da Troca *</label>
+                            <input 
+                                type="date" 
+                                id="dateChange"
+                                required
+                            >
+                        </div>
+                        <div class="form-group">
+                            <label for="addressClient">Endereço</label>
+                            <input 
+                                type="text" 
+                                id="addressClient" 
+                                placeholder="Ex: Rua das 31 de Março"
+                            >
+                        </div>
+                    </div>                        <button type="submit" class="btn-submit">Registar Manutenção</button>
+                    </form>
+                </section>
+
+                <!-- Lista de Registos -->
+                <section class="records-section">
+                    <h2>Controle de Trocas</h2>
+                    <div id="recordsList" class="records-list">
+                        <!-- Os registos serão inseridos aqui dinamicamente -->
+                        <p class="empty-state">Nenhum registo de manutenção ainda. Complete o formulário acima para começar.</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- TAB 2: GARANTIAS DE SERVIÇOS -->
+            <div id="warranties" class="tab-content">
+                <!-- Formulário de Garantia -->
+                <section class="form-section">
+                    <h2>Registar Garantia de Serviço/Peças</h2>
+                    <form id="warrantyForm" class="form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="warrantyClient">Cliente *</label>
+                                <input 
+                                    type="text" 
+                                    id="warrantyClient" 
+                                    placeholder="Ex: Will Barbosa"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="warrantyPhone">Telefone</label>
+                                <input 
+                                    type="tel" 
+                                    id="warrantyPhone" 
+                                    placeholder="Ex: (69) 99314-4190"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="warrantyVehicle">Modelo do Veículo *</label>
+                            <input 
+                                type="text" 
+                                id="warrantyVehicle" 
+                                placeholder="Ex: Yamaha Mt"
+                                required
+                            >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="warrantyDate">Data do Serviço *</label>
+                                <input 
+                                    type="date" 
+                                    id="warrantyDate"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="warrantyDays">Dias de Garantia *</label>
+                                <input 
+                                    type="number" 
+                                    id="warrantyDays" 
+                                    placeholder="Ex: 90"
+                                    min="1"
+                                    required
+                                >
+                            </div>
+
+                            <div class="form-group">
+                                <label for="warrantyService">Serviço Prestado *</label>
+                            <input 
+                                type="text" 
+                                id="warrantyService" 
+                                placeholder="Ex: Revisão Completa do Motor"
+                                required
+                            >
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="warrantyValue">Valor Pago (R$) *</label>
+                                <input 
+                                    type="number" 
+                                    id="warrantyValue" 
+                                    placeholder="Ex: 500.00"
+                                    step="0.01"
+                                    min="0"
+                                    required
+                                >
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn-submit">Registar Garantia</button>
+                    </form>
+                </section>
+
+                <!-- Lista de Garantias -->
+                <section class="records-section">
+                    <h2>Garantias Ativas</h2>
+                    <div id="warrantiesList" class="records-list">
+                        <!-- As garantias serão inseridas aqui dinamicamente -->
+                        <p class="empty-state">Nenhuma garantia registada ainda. Complete o formulário acima para começar.</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- TAB 3: BACKUP -->
+            <div id="backup" class="tab-content">
+                <section class="backup-section">
+                    <h2>💾 Gerenciamento de Backup</h2>
+                    <p class="section-description">Exporte seus dados em JSON para fazer backup seguro ou importe um backup anterior.</p>
+                    
+                    <div class="backup-controls">
+                        <div class="backup-card">
+                            <h3>📥 Importar Backup</h3>
+                            <p>Restaure dados de um arquivo JSON anterior</p>
+                            <button id="importBackupBtn" class="btn-primary btn-large">
+                                📂 Selecionar Arquivo
+                            </button>
+                            <input type="file" id="backupFileInput" accept=".json" style="display: none;">
+                            <p class="help-text">Compatível apenas com backups criados por este sistema</p>
+                        </div>
+
+                        <div class="backup-card">
+                            <h3>📤 Exportar Backup</h3>
+                            <p>Baixe um arquivo JSON com todos os seus dados</p>
+                            <button id="exportBackupBtn" class="btn-primary btn-large">
+                                ⬇️ Baixar Backup
+                            </button>
+                            <p class="help-text">Salve em local seguro para proteger seus dados</p>
+                        </div>
+
+                        <div class="backup-card">
+                            <h3>📊 Informações</h3>
+                            <p>Veja estatísticas do seu backup atual</p>
+                            <button id="backupInfoBtn" class="btn-primary btn-large">
+                                ℹ️ Ver Informações
+                            </button>
+                            <p class="help-text">Data, hora, quantidade de registos e tamanho</p>
+                        </div>
+
+                        <div class="backup-card danger">
+                            <h3>🗑️ Limpar Dados</h3>
+                            <p>Delete todos os registos permanentemente</p>
+                            <button id="clearDataBtn" class="btn-danger btn-large">
+                                ⚠️ Apagar Tudo
+                            </button>
+                            <p class="help-text">⚠️ Esta ação é irreversível! Faça backup primeiro!</p>
+                        </div>
+                    </div>
+
+                    <div class="backup-info">
+                        <h3>ℹ️ Como Usar</h3>
+                        <ol>
+                            <li><strong>Backup Regular:</strong> Clique em "Baixar Backup" regularmente para manter cópias seguras</li>
+                            <li><strong>Restaurar:</strong> Use "Selecionar Arquivo" para restaurar dados de um backup anterior</li>
+                            <li><strong>Segurança:</strong> Armazene backups em local seguro (cloud, pendrive, email)</li>
+                            <li><strong>Formato:</strong> Os arquivos são em JSON e podem ser abertos com qualquer editor de texto</li>
+                            <li><strong>Compatibilidade:</strong> Sempre atualize para a versão mais recente antes de importar backups antigos</li>
+                        </ol>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Rodapé -->
+        <footer class="footer">
+            <p>© 2025 Sistema de Controle | Desenvolvido por Will & Copilot</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+
+    <!-- Registro do Service Worker para PWA -->
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then((registration) => {
+                        console.log('✅ Service Worker registrado com sucesso!');
+                        console.log('📱 Agora pode instalar como app no celular');
+                        
+                        // Verifica atualizações regularmente
+                        setInterval(() => {
+                            registration.update();
+                        }, 60000); // A cada minuto
+                    })
+                    .catch((error) => {
+                        console.error('❌ Erro ao registrar Service Worker:', error);
+                    });
+                
+                // Notifica quando há nova versão disponível
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    console.log('🔄 Nova versão disponível!');
+                });
+            });
+        } else {
+            console.warn('⚠️ Service Worker não suportado neste navegador');
+        }
+
+        // Verifica se pode ser instalado como app
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            console.log('📲 Aplicativo pronto para instalação');
+            
+            // Mostra prompt de instalação se necessário
+            // deferredPrompt.prompt();
+        });
+    </script>
+</body>
+</html>
