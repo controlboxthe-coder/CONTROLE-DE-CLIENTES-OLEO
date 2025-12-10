@@ -10,6 +10,23 @@
     <meta name="apple-mobile-web-app-title" content="Box Motors">
     <meta name="apple-mobile-web-app-status-bar" content="black-translucent">
     <meta name="format-detection" content="telephone=no">
+    <!-- Fix iOS teclado em PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5">
+    <style>
+        /* Force iOS keyboard visibility */
+        input, textarea, select {
+            font-size: 16px !important;
+            -webkit-appearance: none !important;
+            -webkit-border-radius: 0 !important;
+        }
+        
+        body {
+            /* Prevent iOS zoom on input focus */
+            -webkit-user-scalable: yes !important;
+        }
+    </style>
     <meta name="msapplication-TileColor" content="#FF6B6B">
     <meta name="msapplication-config" content="browserconfig.xml">
     <link rel="manifest" href="manifest.json">

@@ -260,6 +260,12 @@ class OilChangeUI {
         const isStandalone = window.navigator.standalone === true;
         
         if (isIOS && isStandalone) {
+            // Force viewport settings for iOS PWA
+            const viewport = document.querySelector('meta[name="viewport"]');
+            if (viewport) {
+                viewport.setAttribute('content', 'width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=yes, maximum-scale=5');
+            }
+            
             // Adiciona handler para todos os inputs existentes e futuros
             document.addEventListener('touchstart', (e) => {
                 if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
@@ -274,13 +280,40 @@ class OilChangeUI {
             
             // Fix para quando o documento é tocado
             document.addEventListener('focus', (e) => {
-                if (e.target.tagName === 'INPUT') {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
                     // Scroll para o input se necessário
                     setTimeout(() => {
                         e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                        // Double tap para garantir focus
+                        e.target.focus();
                     }, 100);
                 }
             }, { capture: true, passive: true });
+            
+            // Fix adicional para inputs criados dinamicamente
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    mutation.addedNodes.forEach((node) => {
+                        if (node.tagName === 'INPUT' || node.tagName === 'TEXTAREA') {
+                            node.addEventListener('focus', (e) => {
+                                setTimeout(() => {
+                                    e.target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }, 100);
+                            });
+                        }
+                    });
+                });
+            });
+            
+            observer.observe(document.body, { childList: true, subtree: true });
+        }
+        
+        // Fix global para iOS - força font-size 16px para evitar zoom
+        if (isIOS) {
+            const inputs = document.querySelectorAll('input, textarea, select');
+            inputs.forEach(input => {
+                input.style.fontSize = '16px';
+            });
         }
     }
 

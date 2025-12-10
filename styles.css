@@ -30,6 +30,17 @@ html {
     scroll-behavior: smooth;
 }
 
+/* Fix iOS PWA - Force keyboard visibility */
+@supports (-webkit-touch-callout: none) {
+    input, textarea, select {
+        font-size: 16px !important;
+    }
+    
+    input:focus, textarea:focus, select:focus {
+        font-size: 16px !important;
+    }
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: var(--light-bg);
